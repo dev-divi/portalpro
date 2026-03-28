@@ -1,16 +1,50 @@
-# React + Vite
+﻿# PortalPro
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A password-protected client portal builder for freelancers and creative agencies. Build beautiful, branded project dashboards for your clients — encrypted end-to-end, shareable as a magic link or `.enc` file.
 
-Currently, two official plugins are available:
+## What It Does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+PortalPro has two views:
 
-## React Compiler
+**Builder (for you):** Set up a project with client name, deadline, status, accent color, logo, milestones, and resource links. When ready, encrypt the whole thing with a master password and get a shareable magic link or downloadable `.enc` file.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Client Portal (for your client):** A polished, locked dashboard. Your client enters the access key, the project decrypts client-side, and they see a live timeline, progress bar, and resource vault — no server, no accounts, no database.
 
-## Expanding the ESLint configuration
+## Who It's For
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Freelance designers, developers, photographers, and creative agencies who want to give clients a professional project-tracking experience without setting up a backend.
+
+## Key Features
+
+- **AES encryption** — all project data encrypted in the browser before sharing; nothing transmitted to a server
+- **Magic link sharing** — encrypted payload embedded in URL hash; paste and send
+- **Milestone timeline** — clients can approve individual milestones directly in the portal, with animated confirmation
+- **Resource vault** — organized links to contracts, invoices, deliverables, and mood boards
+- **Custom branding** — per-project accent color and logo upload
+- **Deadline tracking** — live countdown with color-coded urgency
+- **Draft autosave** — builder state saved to localStorage so you never lose work
+- **Framer Motion animations** — smooth transitions between lock, portal, and builder views
+
+## Tech Stack
+
+- React 18
+- Vite
+- Framer Motion
+- Lucide React (icons)
+- Web Crypto API (AES-GCM encryption, no external crypto library)
+- Tailwind CSS
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173).
+
+The app opens in Builder mode. Fill out your project details, upload a logo, set milestones and resources, then hit **Encrypt & Generate** with a master password. Copy the magic link and send it to your client — they open it in any browser, enter the password, and see their portal.
+
+## How the Encryption Works
+
+When you click Encrypt, the project JSON is encrypted using AES-GCM via the browser's native Web Crypto API. The encrypted blob is base64-encoded and placed in the URL hash (`#...`). The encryption key is derived from your password using PBKDF2. Nothing leaves the client's browser unencrypted.
