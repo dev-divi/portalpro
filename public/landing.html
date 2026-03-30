@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PortalPro — Encrypted Client Portals for Creative Agencies</title>
+<meta name="description" content="Give your clients a private, branded project portal with milestone tracking, resource sharing, and end-to-end encryption. No server, no database, no risk.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #fafaf9; --surface: #ffffff; --border: #e7e5e4;
+  --text: #1c1917; --muted: #78716c; --accent: #7c3aed;
+  --accent-hover: #6d28d9; --accent-light: #f5f3ff;
+}
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.serif { font-family: 'Playfair Display', serif; }
+
+/* Nav */
+.nav { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(16px); background: rgba(250,250,249,0.88); border-bottom: 1px solid var(--border); }
+.nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-weight: 800; font-size: 20px; display: flex; align-items: center; gap: 8px; }
+.nav-logo .icon { width: 32px; height: 32px; border-radius: 10px; background: var(--accent-light); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 16px; }
+.nav-links { display: flex; gap: 8px; align-items: center; }
+.nav-links a { font-size: 14px; color: var(--muted); font-weight: 500; padding: 8px 12px; border-radius: 8px; }
+.nav-links a:hover { color: var(--text); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 12px; font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: all 0.2s; }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 24px rgba(124,58,237,0.2); }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 6px 32px rgba(124,58,237,0.3); }
+.btn-outline { background: transparent; color: var(--text); border: 2px solid var(--border); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm { padding: 10px 20px; font-size: 14px; }
+
+/* Hero */
+.hero { max-width: 780px; margin: 0 auto; padding: 100px 24px 80px; text-align: center; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 100px; margin-bottom: 28px; border: 1px solid rgba(124,58,237,0.1); }
+.hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero p { font-size: 19px; color: var(--muted); max-width: 560px; margin: 0 auto 36px; }
+.hero-buttons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.hero-sub { font-size: 13px; color: var(--muted); margin-top: 16px; }
+
+/* Prestige bar */
+.prestige { padding: 40px 24px; text-align: center; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.prestige p { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 16px; }
+.prestige-items { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
+.prestige-items span { font-size: 14px; font-weight: 600; color: var(--muted); opacity: 0.6; }
+
+/* Problem */
+.problem { padding: 80px 24px; }
+.problem-inner { max-width: 720px; margin: 0 auto; }
+.problem-inner h2 { font-size: 34px; font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
+.problem-inner .lead { font-size: 17px; color: var(--muted); margin-bottom: 40px; }
+.pain-grid { display: grid; gap: 16px; }
+.pain-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; gap: 16px; }
+.pain-num { flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px; background: rgba(239,68,68,0.08); color: #dc2626; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+.pain-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.pain-card p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+/* Solution */
+.solution { padding: 80px 24px; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.solution-inner { max-width: 960px; margin: 0 auto; }
+.section-label { text-transform: uppercase; font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px; text-align: center; }
+.solution-inner h2 { font-size: 34px; font-weight: 800; text-align: center; margin-bottom: 8px; }
+.solution-inner .lead { font-size: 17px; color: var(--muted); text-align: center; margin-bottom: 48px; }
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.feature-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: box-shadow 0.2s; }
+.feature-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+.feature-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+.feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.feature-card p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+/* How it works */
+.steps { padding: 80px 24px; }
+.steps-inner { max-width: 720px; margin: 0 auto; }
+.steps-inner h2 { font-size: 34px; font-weight: 800; text-align: center; margin-bottom: 48px; }
+.step-list { display: flex; flex-direction: column; gap: 32px; }
+.step { display: flex; gap: 20px; align-items: flex-start; }
+.step-num { flex-shrink: 0; width: 52px; height: 52px; border-radius: 14px; background: var(--accent); color: #fff; font-weight: 800; font-size: 22px; display: flex; align-items: center; justify-content: center; }
+.step-content h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.step-content p { font-size: 15px; color: var(--muted); }
+
+/* Encryption callout */
+.encryption { padding: 60px 24px; }
+.encryption-inner { max-width: 720px; margin: 0 auto; background: linear-gradient(135deg, #1e1b4b, #312e81); border-radius: 24px; padding: 48px 40px; color: #fff; text-align: center; }
+.encryption-inner h3 { font-size: 26px; font-weight: 800; margin-bottom: 12px; }
+.encryption-inner p { font-size: 16px; color: #c4b5fd; max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+/* Pricing */
+.pricing { padding: 80px 24px; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.pricing-inner { max-width: 880px; margin: 0 auto; text-align: center; }
+.pricing-inner h2 { font-size: 34px; font-weight: 800; margin-bottom: 8px; }
+.pricing-inner .lead { font-size: 17px; color: var(--muted); margin-bottom: 48px; }
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.price-card { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 36px 28px; text-align: left; position: relative; }
+.price-card.featured { border-color: var(--accent); box-shadow: 0 0 40px rgba(124,58,237,0.1); }
+.price-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 16px; border-radius: 100px; }
+.price-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+.price-card .desc { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+.price-amount { font-size: 48px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 4px; }
+.price-amount span { font-size: 18px; font-weight: 500; color: var(--muted); }
+.price-period { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+.price-features { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 12px; }
+.price-features li { font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+.price-features li::before { content: '\2713'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+.price-card .btn { width: 100%; justify-content: center; }
+
+/* FAQ */
+.faq { padding: 80px 24px; }
+.faq-inner { max-width: 640px; margin: 0 auto; }
+.faq-inner h2 { font-size: 34px; font-weight: 800; text-align: center; margin-bottom: 40px; }
+.faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
+.faq-item summary { font-weight: 700; font-size: 16px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.faq-item summary::after { content: '+'; font-size: 22px; color: var(--muted); transition: transform 0.2s; }
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p { margin-top: 12px; font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+/* Final CTA */
+.final-cta { padding: 100px 24px; text-align: center; background: linear-gradient(180deg, #1e1b4b 0%, #0f0a2e 100%); color: #fff; }
+.final-cta h2 { font-size: clamp(28px, 5vw, 42px); font-weight: 800; margin-bottom: 12px; }
+.final-cta p { font-size: 18px; color: #a5b4fc; margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; }
+.final-cta .btn-primary { background: #fff; color: var(--accent); box-shadow: 0 4px 24px rgba(0,0,0,0.2); }
+.final-cta .btn-primary:hover { background: #f0f0f0; }
+.final-cta .hero-sub { color: #7c7c9a; }
+
+/* Ecosystem */
+.ecosystem { padding: 48px 24px; text-align: center; }
+.eco-inner { max-width: 720px; margin: 0 auto; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+.eco-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px 20px; flex: 1; min-width: 200px; max-width: 320px; text-align: left; }
+.eco-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.eco-card p { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+.eco-card a { font-size: 13px; color: var(--accent); font-weight: 600; }
+
+/* Footer */
+.footer { padding: 32px 24px; text-align: center; border-top: 1px solid var(--border); }
+.footer p { font-size: 13px; color: var(--muted); }
+.footer a { color: var(--accent); font-weight: 600; }
+
+@media (max-width: 640px) {
+  .features { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .hero-buttons { flex-direction: column; align-items: center; }
+  .encryption-inner { padding: 36px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><div class="icon">&#128274;</div> PortalPro</div>
+    <div class="nav-links">
+      <a href="#pricing">Pricing</a>
+      <a href="#start" class="btn btn-primary btn-sm">Start Building</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="start">
+  <div class="hero-badge">&#128737; End-to-end encrypted. Zero server risk.</div>
+  <h1>Give clients a portal that <em>matches your work.</em></h1>
+  <p>PortalPro lets you build branded, encrypted client dashboards with milestone tracking, resource sharing, and one-click approval — without a backend, a database, or a monthly server bill.</p>
+  <div class="hero-buttons">
+    <a href="/app" class="btn btn-primary">Start Building Your Portal &rarr;</a>
+    <a href="#how" class="btn btn-outline">See How It Works</a>
+  </div>
+  <div class="hero-sub">We're selective about who uses PortalPro. <a href="#pricing" style="color:var(--accent);">See plans &rarr;</a></div>
+</section>
+
+<!-- Prestige -->
+<section class="prestige">
+  <p>Built for</p>
+  <div class="prestige-items">
+    <span>Design Studios</span>
+    <span>Brand Agencies</span>
+    <span>Photographers</span>
+    <span>Web Developers</span>
+    <span>Creative Directors</span>
+  </div>
+</section>
+
+<!-- Problem -->
+<section class="problem">
+  <div class="problem-inner">
+    <h2>Your work is premium. Your client experience isn't.</h2>
+    <p class="lead">You charge $5K+ per project, but your "client portal" is a Dropbox folder and a Google Doc with bullet points. Your clients notice.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-num">1</div>
+        <div>
+          <h3>You're emailing assets back and forth like it's 2015</h3>
+          <p>Contracts in Gmail. Mood boards in Dropbox. Feedback in Slack. Your client is searching five platforms to find one file. This is not a premium experience.</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-num">2</div>
+        <div>
+          <h3>Clients can't see where their project stands</h3>
+          <p>"What's the status?" — the email you get every week because your client has no visibility into their own project. You end up project-managing the client instead of doing the work.</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-num">3</div>
+        <div>
+          <h3>Real portal tools cost $50-300/mo and require a backend</h3>
+          <p>Notion, Monday, client portal SaaS — they all want monthly fees, team seats, and API integrations. You're a creative, not a SaaS administrator. You need something that just works.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Solution -->
+<section class="solution" id="how">
+  <div class="solution-inner">
+    <div class="section-label">The Solution</div>
+    <h2>A client portal that feels like a luxury experience.</h2>
+    <p class="lead">Build once. Encrypt. Share a magic link. Your client unlocks a branded dashboard that makes you look like a 50-person agency.</p>
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--accent-light);color:var(--accent);">&#128737;</div>
+        <h3>AES-256 Encryption</h3>
+        <p>Every portal is encrypted with a password using the Web Crypto API. Not your server. Not our server. The browser does the encryption. Zero attack surface.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#ecfdf5;color:#059669;">&#9745;</div>
+        <h3>Milestone Timeline</h3>
+        <p>Visual project timeline with client-facing approval buttons. Your client clicks "Approve" and the milestone is signed off. No email thread required.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#eff6ff;color:#2563eb;">&#128279;</div>
+        <h3>Magic Link Sharing</h3>
+        <p>The encrypted portal lives in the URL itself. Send a link. Client enters the password. Portal decrypts in their browser. No login, no account, no friction.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#fef3c7;color:#d97706;">&#128193;</div>
+        <h3>Resource Vault</h3>
+        <p>Organize contracts, invoices, deliverables, and mood boards in one place. Your client stops digging through email for that one PDF you sent three weeks ago.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#fae8ff;color:#9333ea;">&#127912;</div>
+        <h3>Custom Branding</h3>
+        <p>Set your accent color, upload your logo. Every portal goes out looking like it was built by your studio — because it was.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#fff1f2;color:#e11d48;">&#128196;</div>
+        <h3>No Server Required</h3>
+        <p>PortalPro is a static app. No database. No backend. No monthly infrastructure cost. Host it on Netlify for free and run it forever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Steps -->
+<section class="steps">
+  <div class="steps-inner">
+    <h2>Build a client portal in 5 minutes.</h2>
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Open the Builder</h3>
+          <p>Add your client's name, project details, deadline, and your branding. Set up milestones (Discovery, Design, Delivery) and link resources.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Encrypt with a password</h3>
+          <p>Set a master password. PortalPro encrypts the entire project into a single encrypted bundle using AES-GCM. Copy the magic link.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Send it to your client</h3>
+          <p>Your client opens the link, enters the password, and sees a polished project dashboard. They can approve milestones, access files, and track progress.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Encryption Callout -->
+<section class="encryption">
+  <div class="encryption-inner">
+    <h3>&#128274; Your client's data never touches a server.</h3>
+    <p>PortalPro uses AES-GCM encryption via the browser's native Web Crypto API. The password derives an encryption key with PBKDF2. The encrypted payload is base64-encoded and embedded in the URL hash. No data is transmitted to any server, ever. This isn't a marketing claim — it's the architecture.</p>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="section-label">Pricing</div>
+    <h2>Premium tools, honest pricing.</h2>
+    <p class="lead">Choose the plan that matches your project volume.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Studio</h3>
+        <p class="desc">For freelancers running 1-3 client projects</p>
+        <div class="price-amount">$49<span>/mo</span></div>
+        <div class="price-period">Billed monthly</div>
+        <ul class="price-features">
+          <li>Unlimited encrypted portals</li>
+          <li>Custom branding per portal</li>
+          <li>Milestone tracking + client approval</li>
+          <li>Resource vault (docs + deliverables)</li>
+          <li>Magic link sharing</li>
+          <li>.enc file export</li>
+        </ul>
+        <a href="/app" class="btn btn-outline" style="width:100%;justify-content:center;">Start 14-Day Trial</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Most Popular</div>
+        <h3>Agency</h3>
+        <p class="desc">For studios and agencies running 5+ projects</p>
+        <div class="price-amount">$349</div>
+        <div class="price-period">Lifetime access — one payment</div>
+        <ul class="price-features">
+          <li>Everything in Studio</li>
+          <li>Founding member status</li>
+          <li>All future features included</li>
+          <li>Priority feature requests</li>
+          <li>White-label ready (remove branding)</li>
+          <li>Never pay again</li>
+        </ul>
+        <a href="/app" class="btn btn-primary" style="width:100%;justify-content:center;">Get Lifetime Access &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="faq-inner">
+    <h2>Questions</h2>
+    <details class="faq-item">
+      <summary>Is client data really secure?</summary>
+      <p>Yes. PortalPro encrypts all project data in your browser before it goes anywhere. The encryption uses AES-GCM with PBKDF2 key derivation — the same standard used by password managers. No server ever sees the unencrypted data.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Does my client need an account?</summary>
+      <p>No. You send them a link. They enter the password you gave them. The portal decrypts and loads. No signup, no login, no account creation.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What happens if I lose the password?</summary>
+      <p>The password is the only way to decrypt the portal. There is no "reset" because there is no server storing your data. Keep a copy of your password in a password manager.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Can I use my own domain?</summary>
+      <p>Yes. PortalPro is a static app you can host on your own domain via Netlify, Vercel, or any static host. Your client will see your URL, not ours.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How is this different from Notion or Monday.com?</summary>
+      <p>Notion and Monday are general-purpose project tools with monthly seats, databases, and admin overhead. PortalPro is purpose-built for client-facing dashboards: encrypted, branded, no-login, shareable as a link. It's not a project management tool — it's a client experience tool.</p>
+    </details>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta">
+  <h2>Your clients deserve better than a shared Google Doc.</h2>
+  <p>Give them a portal that matches the quality of work you deliver.</p>
+  <a href="/app" class="btn btn-primary">Build Your First Portal &rarr;</a>
+  <div class="hero-sub">14-day trial. No credit card.</div>
+</section>
+
+<!-- Ecosystem links -->
+<section class="ecosystem">
+  <div class="eco-inner">
+    <div class="eco-card">
+      <h4>SoloCraft</h4>
+      <p>Free invoice and proposal generator for freelancers.</p>
+      <a href="https://solocraft.netlify.app">Use it free &rarr;</a>
+    </div>
+    <div class="eco-card">
+      <h4>FlashDash</h4>
+      <p>Job tracking and invoicing for service businesses.</p>
+      <a href="https://flashdash.netlify.app">Start trial &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>&copy; 2026 PortalPro. Built by <a href="https://tiktok.com/@choiceaura">Choice Aura</a></p>
+</footer>
+
+</body>
+</html>
